@@ -4,11 +4,11 @@ dotenv.config();
 // import mysql from 'mysql2'
 
 db = mysql.createConnection({
-  host: process.env.MYSQLHOST,
-  database: process.env.MYSQLDATABASE,
-  password: process.env.MYSQLPASSWORD,
-  user: process.env.MYSQLUSER,
-  port: process.env.MYSQLPORT,
+  host: process.env.MYSQL_ADDON_HOST,
+  database: process.env.MYSQL_ADDON_DB,
+  password: process.env.MYSQL_ADDON_PASSWORD,
+  user: process.env.MYSQL_ADDON_USER,
+  port: process.env.MYSQL_ADDON_PORT,
 });
 
 const connection = () => {
