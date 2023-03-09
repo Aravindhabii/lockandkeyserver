@@ -11,6 +11,7 @@ db = mysql.createConnection({
   port: process.env.MYSQL_ADDON_PORT,
 });
 
+//poda
 const connection = () => {
   db.connect((err) => {
     if (err) {
