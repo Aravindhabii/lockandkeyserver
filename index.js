@@ -19,6 +19,10 @@ function setCookie(name, uuid, expirationDays) {
 }
 
 app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.get("/users", (req, res) => {
   db.query("SELECT * FROM users", (err, resp) => {
     if (err) {
       console.log(err);
@@ -102,7 +106,13 @@ app.post("/addentry", (req, res) => {
 // var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
 // console.log(decryptedData)
 
-app.listen(8080, () => {
-  console.log("Server is running on port 8080");
+// app.listen(8080, "0.0.0.0", () => {
+//   console.log("Server is running on port 8080");
+//   schema();
+// });
+
+// make app run on 0.0.0.0
+app.listen(8080, "0.0.0.0", () => {
   schema();
+  console.log("Server is running on http://0.0.0.0:8080");
 });
