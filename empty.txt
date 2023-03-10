@@ -1,3 +1,18 @@
+// var ciphertext =
+//     ''
+//   var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123').toString();
+//   console.log(ciphertext);
+
+// var bytes = CryptoJS.AES.decrypt(ciphertext, 'secret key 123')
+// var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
+// console.log(decryptedData)
+
+// app.listen(8080, "0.0.0.0", () => {
+//   console.log("Server is running on port 8080");
+//   schema();
+// });
+
+
 //import statements as common js
 const express = require("express");
 const cors = require("cors");
@@ -32,8 +47,6 @@ app.get("/users", (req, res) => {
   });
 });
 
-//close the database connection after the db.query gets over
-
 app.post("/login", (req, res) => {
   console.log(req.body);
   const { email, password } = req.body;
@@ -44,16 +57,18 @@ app.post("/login", (req, res) => {
     (err, resp) => {
       if (err) {
         res.json(err).status(400);
+        db.end();
       } else {
         if (resp.length === 1) {
           res.json(resp).status(200);
+          db.end();
         } else {
           res.json(["no user found"]);
+          db.end();
         }
       }
     }
   );
-  db.end();
 });
 
 app.post("/register", (req, res) => {
@@ -68,13 +83,14 @@ app.post("/register", (req, res) => {
       if (err) {
         console.log(err);
         res.json(err).status(400);
+        db.end();
       } else {
         console.log(resp);
         res.json(resp).status(200);
+        db.end();
       }
     }
   );
-  db.end();
 });
 
 app.post("/addentry", (req, res) => {
@@ -95,15 +111,6 @@ app.post("/addentry", (req, res) => {
     }
   );
 });
-
-// var ciphertext =
-//     ''
-//   var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123').toString();
-//   console.log(ciphertext);
-
-// var bytes = CryptoJS.AES.decrypt(ciphertext, 'secret key 123')
-// var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
-// console.log(decryptedData)
 
 app.listen(8080, "0.0.0.0", () => {
   schema();
