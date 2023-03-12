@@ -6,6 +6,7 @@ const uuid = require("uuid");
 const db = require("./database").db;
 const connection = require("./database").connection;
 const schema = require("./schema");
+const CryptoJS = require("crypto-js");
 
 const app = express();
 app.use(cors());
@@ -77,29 +78,34 @@ app.post("/register", (req, res) => {
   db.end();
 });
 
-app.post("/addentry", (req, res) => {
-  const { userid, title, body } = req.body;
+app.post("/addentry", async (req, res) => {
+  const { userid, date, content } = req.body;
   const entryid = uuid.v4();
-  console.log(userid, title, body);
-  db.query(
-    "INSERT INTO entries (entryid, userid, title, body) VALUES (?,?,?,?)",
-    [entryid, userid, title, body],
+
+  console.log(userid, date, content);
+  var ciphertext = "";
+  var ciphertext = CryptoJS.AES.encrypt(
+    JSON.stringify(content),
+    "213ec9f8-7b83"
+  ).toString();
+  console.log(ciphertext);
+
+  connection();
+  const data = db.query(
+    "INSERT INTO pages (pageid, userid, data, date) VALUES (?,?,?,?)",
+    [entryid, userid, content, date],
     (err, resp) => {
       if (err) {
         console.log(err);
         res.json(err).status(400);
       } else {
-        console.log(resp);
+        // console.log(resp);
         res.json(resp).status(200);
       }
     }
   );
+  db.end();
 });
-
-// var ciphertext =
-//     ''
-//   var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123').toString();
-//   console.log(ciphertext);
 
 // var bytes = CryptoJS.AES.decrypt(ciphertext, 'secret key 123')
 // var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
