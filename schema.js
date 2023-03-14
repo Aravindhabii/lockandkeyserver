@@ -12,7 +12,7 @@ const schema = () => {
     `
         CREATE TABLE IF NOT EXISTS pages(
           pageid VARCHAR(36) PRIMARY KEY,
-          userid VARCHAR(36) UNIQUE,
+          userid VARCHAR(36),
           data TEXT NOT NULL,
           date VARCHAR(20) NOT NULL,
           FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE 
